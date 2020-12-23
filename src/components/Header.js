@@ -2,6 +2,7 @@
 import { jsx } from "theme-ui"
 import { Link } from "gatsby"
 import { Container } from "../components/Grid"
+// import Dummy from "../images/icon."
 
 export default function Header() {
   return (
@@ -22,6 +23,7 @@ export default function Header() {
         <Link to="/" sx={styles.mainLink}>
           JAM SHOP
         </Link>
+        <Link to="/cart">{/* <img src={Dummy} alt="cart-icon" /> */}</Link>
       </Container>
     </header>
   )

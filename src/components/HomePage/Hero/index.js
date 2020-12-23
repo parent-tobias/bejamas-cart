@@ -1,36 +1,113 @@
 /** @jsx jsx */
 import React from "react"
 import { jsx, Styled } from "theme-ui"
+import { StaticQuery, graphql, Link } from "gatsby"
 import { Row, Col } from "../../Grid"
 
 import HeroBackground from "../../../images/elements/hero_background.svg"
 import HeroImage from "../../../images/elements/monitor.svg"
 import HeroDecor from "../../../images/elements/hero_decor.svg"
+import Dummy from "../../../images/products/dumy.svg"
+import Card from "../../Card"
 
-function HomepageHero() {
+export default function HomepageHero() {
   return (
-    <section sx={{ paddingTop: [60, 60, 105] }}>
-      <Row styles={{ justifyContent: ["center"] }}>
-        <Col styles={styles.imgWrapper}>
-          <img src={HeroImage} alt="Vector Monitor" sx={{ maxWidth: "1" }} />
-        </Col>
-        <Col styles={styles.leadWrapper}>
-          <Styled.h1 sx={styles.heading}>
-            Don't waste time
-            <br />
-            on boring things
-          </Styled.h1>
-          <button sx={{ variant: "button.primary", mx: ["auto", null, 0] }}>
-            GO EXPLORE
-          </button>
-        </Col>
-      </Row>
-      <img src={HeroBackground} sx={styles.backgroundImg} />
-    </section>
+    <StaticQuery
+      query={graphql`
+        query MyQuery {
+          allMarkdownRemark(limit: 4) {
+            edges {
+              node {
+                fields {
+                  slug
+                }
+                id
+                frontmatter {
+                  excerpt
+                  name
+                  description
+                  image
+                  price
+                }
+              }
+            }
+          }
+        }
+      `}
+      render={(data) => (
+        <section>
+          <section sx={{ paddingTop: [60, 60, 105] }}>
+            {" "}
+            <Row styles={{ justifyContent: ["center"] }}>
+              {" "}
+              <Col styles={styles.imgWrapper}>
+                {" "}
+                <img
+                  src={HeroImage}
+                  alt="Vector Monitor"
+                  sx={{ maxWidth: "1" }}
+                />{" "}
+              </Col>{" "}
+              <Col styles={styles.leadWrapper}>
+                {" "}
+                <Styled.h1 sx={styles.heading}>
+                  Don't waste time <br />
+                  on boring things{" "}
+                </Styled.h1>{" "}
+                <button
+                  sx={{ variant: "button.primary", mx: ["auto", null, 0] }}
+                >
+                  GO EXPLORE{" "}
+                </button>{" "}
+              </Col>{" "}
+            </Row>
+            <img src={HeroBackground} sx={styles.backgroundImg} />{" "}
+          </section>
+          <div sx={{ paddingTop: [60, 60, 105] }}>
+            <Row styles={styles.cardWrapper}>
+              {data &&
+                data.allMarkdownRemark.edges.map(({ node }) => (
+                  <Card key={node.frontmatter.id}>
+                    <Link to={node.fields.slug}>
+                      <img src={Dummy} alt="dummy image" />
+                      <p>{node.frontmatter.name}</p>
+                      <p>{node.frontmatter.excerpt}</p>
+                      <button sx={styles.addToCartBtn}>+</button>
+                    </Link>
+                  </Card>
+                ))}
+            </Row>
+          </div>
+        </section>
+      )}
+    />
   )
 }
 
-export default HomepageHero
+// function HomepageHero() {
+//   return (
+//     <section sx={{ paddingTop: [60, 60, 105] }}>
+//       <Row styles={{ justifyContent: ["center"] }}>
+//         <Col styles={styles.imgWrapper}>
+//           <img src={HeroImage} alt="Vector Monitor" sx={{ maxWidth: "1" }} />
+//         </Col>
+//         <Col styles={styles.leadWrapper}>
+//           <Styled.h1 sx={styles.heading}>
+//             Don't waste time
+//             <br />
+//             on boring things
+//           </Styled.h1>
+//           <button sx={{ variant: "button.primary", mx: ["auto", null, 0] }}>
+//             GO EXPLORE
+//           </button>
+//         </Col>
+//       </Row>
+//       <img src={HeroBackground} sx={styles.backgroundImg} />
+//     </section>
+//   )
+// }
+
+// export default HomepageHero
 
 const styles = {
   heading: {
