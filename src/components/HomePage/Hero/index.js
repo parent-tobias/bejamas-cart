@@ -1,9 +1,13 @@
 /** @jsx jsx */
-import React from "react"
+import React, { useState } from "react"
 import { jsx, Styled } from "theme-ui"
 import { StaticQuery, graphql, Link } from "gatsby"
-import { Row, Col } from "../../Grid"
+import Slider from "react-slick"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
+import { FaPlusCircle, FaPlus } from "react-icons/fa"
 
+import { Row, Col } from "../../Grid"
 import HeroBackground from "../../../images/elements/hero_background.svg"
 import HeroImage from "../../../images/elements/monitor.svg"
 import HeroDecor from "../../../images/elements/hero_decor.svg"
@@ -11,11 +15,26 @@ import Dummy from "../../../images/products/dumy.svg"
 import Card from "../../Card"
 
 export default function HomepageHero() {
+  const [cart, setCart] = useState([])
+
+  const addToCart = (item) => {
+    setCart((currentCart) => [...currentCart, item])
+  }
+  console.log(cart)
+
+  var settings = {
+    centerPadding: "2px",
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+  }
   return (
     <StaticQuery
       query={graphql`
         query MyQuery {
-          allMarkdownRemark(limit: 4) {
+          allMarkdownRemark(filter: { frontmatter: { price: { gte: 0 } } }) {
             edges {
               node {
                 fields {
@@ -41,73 +60,53 @@ export default function HomepageHero() {
             <Row styles={{ justifyContent: ["center"] }}>
               {" "}
               <Col styles={styles.imgWrapper}>
-                {" "}
                 <img
                   src={HeroImage}
                   alt="Vector Monitor"
                   sx={{ maxWidth: "1" }}
-                />{" "}
-              </Col>{" "}
+                />
+              </Col>
               <Col styles={styles.leadWrapper}>
                 {" "}
                 <Styled.h1 sx={styles.heading}>
                   Don't waste time <br />
-                  on boring things{" "}
-                </Styled.h1>{" "}
+                  on boring things
+                </Styled.h1>
                 <button
                   sx={{ variant: "button.primary", mx: ["auto", null, 0] }}
                 >
-                  GO EXPLORE{" "}
-                </button>{" "}
-              </Col>{" "}
+                  GO EXPLORE
+                </button>
+              </Col>
             </Row>
             <img src={HeroBackground} sx={styles.backgroundImg} />{" "}
           </section>
+          <p>{cart.length}</p>
           <div sx={{ paddingTop: [60, 60, 105] }}>
-            <Row styles={styles.cardWrapper}>
+            <Slider {...settings}>
               {data &&
                 data.allMarkdownRemark.edges.map(({ node }) => (
-                  <Card key={node.frontmatter.id}>
+                  <Card key={node.id}>
                     <Link to={node.fields.slug}>
                       <img src={Dummy} alt="dummy image" />
                       <p>{node.frontmatter.name}</p>
                       <p>{node.frontmatter.excerpt}</p>
-                      <button sx={styles.addToCartBtn}>+</button>
                     </Link>
+                    <span
+                      style={styles.addToCartBtn}
+                      onClick={() => addToCart(node.frontmatter.price)}
+                    >
+                      <FaPlus size="24" color="white" />
+                    </span>
                   </Card>
                 ))}
-            </Row>
+            </Slider>
           </div>
         </section>
       )}
     />
   )
 }
-
-// function HomepageHero() {
-//   return (
-//     <section sx={{ paddingTop: [60, 60, 105] }}>
-//       <Row styles={{ justifyContent: ["center"] }}>
-//         <Col styles={styles.imgWrapper}>
-//           <img src={HeroImage} alt="Vector Monitor" sx={{ maxWidth: "1" }} />
-//         </Col>
-//         <Col styles={styles.leadWrapper}>
-//           <Styled.h1 sx={styles.heading}>
-//             Don't waste time
-//             <br />
-//             on boring things
-//           </Styled.h1>
-//           <button sx={{ variant: "button.primary", mx: ["auto", null, 0] }}>
-//             GO EXPLORE
-//           </button>
-//         </Col>
-//       </Row>
-//       <img src={HeroBackground} sx={styles.backgroundImg} />
-//     </section>
-//   )
-// }
-
-// export default HomepageHero
 
 const styles = {
   heading: {
@@ -150,5 +149,17 @@ const styles = {
     right: 0,
     display: ["none", null, "block"],
     zIndex: -1,
+  },
+
+  addToCartBtn: {
+    maxWidth: "100px",
+    background: "#AA528D",
+    display: "flex",
+    alignSelf: "flex-end",
+    width: "50px",
+    height: "auto",
+    padding: "15px",
+    borderRadius: "100%",
+    cursor: "pointer",
   },
 }

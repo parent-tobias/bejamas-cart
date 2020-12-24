@@ -2,12 +2,12 @@
 import { jsx } from "theme-ui"
 import { Link } from "gatsby"
 import { Container } from "../components/Grid"
-// import Dummy from "../images/icon."
-
+import { FaShoppingBasket } from "react-icons/fa"
 export default function Header() {
   return (
     <header sx={styles.header}>
       <Container
+        styles={styles.headerContainer}
         sx={{
           maxWidth: [
             "100%",
@@ -23,7 +23,9 @@ export default function Header() {
         <Link to="/" sx={styles.mainLink}>
           JAM SHOP
         </Link>
-        <Link to="/cart">{/* <img src={Dummy} alt="cart-icon" /> */}</Link>
+        <span styles={styles.cart}>
+          <FaShoppingBasket size="30" color="white" />
+        </span>
       </Container>
     </header>
   )
@@ -47,5 +49,9 @@ const styles = {
     color: "white",
     fontWeight: "bold",
     fontSize: 22,
+  },
+  headerContainer: {
+    display: "flex",
+    justifyContent: "space-between",
   },
 }
