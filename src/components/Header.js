@@ -1,9 +1,37 @@
 /** @jsx jsx */
+import React, { useState, useContext } from "react"
 import { jsx } from "theme-ui"
 import { Link } from "gatsby"
-import { Container } from "../components/Grid"
 import { FaShoppingBasket } from "react-icons/fa"
+
+import { Container } from "../components/Grid"
+import { CartContext } from "../context/cartContext"
+
 export default function Header() {
+  // const [cart, setCart] = useContext(CartContext)
+  const [isOpen, setIsOpen] = useState(false)
+
+  const openCart = () => {
+    setIsOpen(!isOpen)
+  }
+
+  // const removeFromCart = (item) => {
+  //   setCart((currentCart) => {
+  //     const indexOfItemToRemove = currentCart.findIndex(
+  //       (cartItem) => cartItem.id === item.id
+  //     )
+
+  //     if (indexOfItemToRemove === -1) {
+  //       return currentCart
+  //     }
+
+  //     return [
+  //       ...currentCart.slice(0, indexOfItemToRemove),
+  //       ...currentCart.slice(indexOfItemToRemove + 1),
+  //     ]
+  //   })
+  // }
+
   return (
     <header sx={styles.header}>
       <Container
@@ -23,9 +51,19 @@ export default function Header() {
         <Link to="/" sx={styles.mainLink}>
           JAM SHOP
         </Link>
-        <span styles={styles.cart}>
-          <FaShoppingBasket size="30" color="white" />
-        </span>
+        <div>
+          <FaShoppingBasket size="30" color="white" onClick={openCart} />
+          {/* {cart.length} */}
+          {/* {isOpen && (
+            <div sx={styles.cartOpen}>
+              {cart.map((item) => (
+                <div sx={styles.cartItem}>
+                  ${item}
+                </div>
+              ))}
+            </div>
+          )} */}
+        </div>
       </Container>
     </header>
   )
@@ -53,5 +91,17 @@ const styles = {
   headerContainer: {
     display: "flex",
     justifyContent: "space-between",
+  },
+  cartOpen: {
+    width: "200px",
+    height: "200px",
+    background: "#220538",
+    border: "2px solid #fff",
+    borderRadius: "5px",
+  },
+  cartItem: {
+    display: "flex",
+    justifyContent: "space-between",
+    padding: "1em",
   },
 }

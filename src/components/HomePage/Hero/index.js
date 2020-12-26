@@ -1,11 +1,11 @@
 /** @jsx jsx */
-import React, { useState } from "react"
+import React, { useState, useContext } from "react"
 import { jsx, Styled } from "theme-ui"
 import { StaticQuery, graphql, Link } from "gatsby"
 import Slider from "react-slick"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
-import { FaPlusCircle, FaPlus } from "react-icons/fa"
+import { FaPlus } from "react-icons/fa"
 
 import { Row, Col } from "../../Grid"
 import HeroBackground from "../../../images/elements/hero_background.svg"
@@ -13,9 +13,10 @@ import HeroImage from "../../../images/elements/monitor.svg"
 import HeroDecor from "../../../images/elements/hero_decor.svg"
 import Dummy from "../../../images/products/dumy.svg"
 import Card from "../../Card"
+import { CartContext } from "../../../context/cartContext"
 
 export default function HomepageHero() {
-  const [cart, setCart] = useState([])
+  const [cart, setCart] = useContext(CartContext)
 
   const addToCart = (item) => {
     setCart((currentCart) => [...currentCart, item])
@@ -56,9 +57,7 @@ export default function HomepageHero() {
       render={(data) => (
         <section>
           <section sx={{ paddingTop: [60, 60, 105] }}>
-            {" "}
             <Row styles={{ justifyContent: ["center"] }}>
-              {" "}
               <Col styles={styles.imgWrapper}>
                 <img
                   src={HeroImage}
@@ -67,7 +66,6 @@ export default function HomepageHero() {
                 />
               </Col>
               <Col styles={styles.leadWrapper}>
-                {" "}
                 <Styled.h1 sx={styles.heading}>
                   Don't waste time <br />
                   on boring things
@@ -79,9 +77,8 @@ export default function HomepageHero() {
                 </button>
               </Col>
             </Row>
-            <img src={HeroBackground} sx={styles.backgroundImg} />{" "}
+            <img src={HeroBackground} sx={styles.backgroundImg} />
           </section>
-          <p>{cart.length}</p>
           <div sx={{ paddingTop: [60, 60, 105] }}>
             <Slider {...settings}>
               {data &&
@@ -163,3 +160,18 @@ const styles = {
     cursor: "pointer",
   },
 }
+
+// query MyQuery {
+//   allMarkdownRemark(filter: {frontmatter: { title: {eq: "Explore community choices"}}}) {
+//     edges {
+//       node {
+
+//         frontmatter {
+//           title
+//           lead
+
+//         }
+//       }
+//     }
+//   }
+// }
