@@ -5,7 +5,6 @@ import { graphql } from "gatsby"
 
 import Layout from "../components/Layout"
 import { Col, Row, Container } from "../components/Grid"
-import Dummy from "../images/products/dumy.svg"
 
 export default function ProductView({ data }) {
   const product = data.markdownRemark
@@ -13,29 +12,30 @@ export default function ProductView({ data }) {
     <Layout>
       <Container>
         <section sx={{ paddingTop: [60, 60, 105] }}>
-          <Row sx={styles.detailViewWrapper}>
+          <Flex sx={styles.detailViewWrapper}>
             <Col styles={styles.detailImage}>
               <img
-                // src={product.frontmatter.image}
-                src={Dummy}
+                src={product.frontmatter.image}
                 alt={product.frontmatter.name}
                 sx={{ maxWidth: "1" }}
               />
             </Col>
 
-            <Col style={styles.detailMeta}>
-              <p>{product.frontmatter.tag}</p>
+            <Col styles={styles.detailMeta}>
+              <Styled.p sx={{ textTransform: "uppercase", color: "#D9C055" }}>
+                {product.frontmatter.tag}
+              </Styled.p>
 
-              <Styled.h1 sx={styles.heading}>
+              <Styled.h2 sx={styles.heading}>
                 {product.frontmatter.name}
-              </Styled.h1>
+              </Styled.h2>
               <p>{product.frontmatter.description}</p>
-              <h2>${product.frontmatter.price}</h2>
+              <Styled.h3>${product.frontmatter.price}</Styled.h3>
               <button sx={{ variant: "button.primary", mx: ["auto", null, 0] }}>
                 ADD TO CART
               </button>
             </Col>
-          </Row>
+          </Flex>
         </section>
       </Container>
     </Layout>
@@ -47,6 +47,7 @@ const styles = {
     paddingTop: [60, 60, 105],
     paddingLeft: [60, 60, 105],
     paddingRight: [60, 60, 105],
+    flexDirection: ["column", "column", "row"],
   },
   detailImage: {
     width: ["1", "1", "2/5", null, 450],
@@ -54,9 +55,8 @@ const styles = {
   },
   detailMeta: {
     width: ["1", "1", "3/5", null, 650],
-    ml: ["auto", 0, 0, 0, 0, 100],
-
-    mb: ["65px", "65px", 0],
+    // ml: ["auto", 0, 0, 0, 0, 100],
+    // mb: ["65px", "65px", 0],
   },
 }
 export const query = graphql`

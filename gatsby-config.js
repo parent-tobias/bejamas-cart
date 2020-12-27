@@ -22,13 +22,7 @@ module.exports = {
         path: `${__dirname}/src/pages/products`,
       },
     },
-    {
-      resolve: `gatsby-plugin-google-fonts`,
-      options: {
-        fonts: [`DM Sans\:700`, `Roboto\:400,500`],
-        display: "swap",
-      },
-    },
+
     "gatsby-transformer-remark",
     "gatsby-transformer-sharp",
     "gatsby-plugin-sharp",

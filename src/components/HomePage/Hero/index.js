@@ -11,7 +11,6 @@ import { Row, Col } from "../../Grid"
 import HeroBackground from "../../../images/elements/hero_background.svg"
 import HeroImage from "../../../images/elements/monitor.svg"
 import HeroDecor from "../../../images/elements/hero_decor.svg"
-import Dummy from "../../../images/products/dumy.svg"
 import Card from "../../Card"
 import { CartContext } from "../../../context/cartContext"
 
@@ -31,6 +30,7 @@ export default function HomepageHero() {
     slidesToShow: 4,
     slidesToScroll: 1,
   }
+
   return (
     <StaticQuery
       query={graphql`
@@ -79,13 +79,21 @@ export default function HomepageHero() {
             </Row>
             <img src={HeroBackground} sx={styles.backgroundImg} />
           </section>
+
           <div sx={{ paddingTop: [60, 60, 105] }}>
             <Slider {...settings}>
               {data &&
                 data.allMarkdownRemark.edges.map(({ node }) => (
                   <Card key={node.id}>
-                    <Link to={node.fields.slug}>
-                      <img src={Dummy} alt="dummy image" />
+                    <Link
+                      to={node.fields.slug}
+                      sx={{ color: "#fff", textDecoration: "none" }}
+                    >
+                      <img
+                        sx={{ textAlign: "center" }}
+                        src={node.frontmatter.image}
+                        alt="dummy image"
+                      />
                       <p>{node.frontmatter.name}</p>
                       <p>{node.frontmatter.excerpt}</p>
                     </Link>
@@ -160,18 +168,3 @@ const styles = {
     cursor: "pointer",
   },
 }
-
-// query MyQuery {
-//   allMarkdownRemark(filter: {frontmatter: { title: {eq: "Explore community choices"}}}) {
-//     edges {
-//       node {
-
-//         frontmatter {
-//           title
-//           lead
-
-//         }
-//       }
-//     }
-//   }
-// }

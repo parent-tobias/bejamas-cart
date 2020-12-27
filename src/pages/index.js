@@ -4,7 +4,7 @@ import Layout from "../components/Layout"
 import SEO from "../components/SEO"
 import Hero from "../components/HomePage/Hero"
 import { Container } from "../components/Grid"
-import Card from "../components/Card"
+import Lead from "../components/Layout/Lead"
 import { CartProvider } from "../context/cartContext"
 
 export default function IndexPage() {
@@ -14,7 +14,6 @@ export default function IndexPage() {
         <SEO title="Home" />
         <Container>
           <Hero />
-          {/* <Card /> */}
         </Container>
       </Layout>
     </CartProvider>
