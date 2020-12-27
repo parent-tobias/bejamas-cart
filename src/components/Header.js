@@ -2,13 +2,13 @@
 import React, { useState, useContext } from "react"
 import { jsx } from "theme-ui"
 import { Link } from "gatsby"
-import { FaShoppingBasket } from "react-icons/fa"
+import { FaShoppingBasket, FaAngleDown, FaAngleUp } from "react-icons/fa"
 
 import { Container } from "../components/Grid"
 import { CartContext } from "../context/cartContext"
 
 export default function Header() {
-  // const [cart, setCart] = useContext(CartContext)
+  const [cart, setCart] = useContext(CartContext)
   const [isOpen, setIsOpen] = useState(false)
 
   const openCart = () => {
@@ -51,18 +51,29 @@ export default function Header() {
         <Link to="/" sx={styles.mainLink}>
           JAM SHOP
         </Link>
-        <div>
-          <FaShoppingBasket size="30" color="white" onClick={openCart} />
-          {/* {cart.length} */}
-          {/* {isOpen && (
+        <div sx={styles.cartIcon} onClick={openCart}>
+          <FaShoppingBasket size="30" color="white" />
+          <span>{cart.length}</span>
+          {isOpen ? (
+            <FaAngleUp size="24" color="white" />
+          ) : (
+            <FaAngleDown size="24" color="white" />
+          )}
+
+          {isOpen && (
             <div sx={styles.cartOpen}>
               {cart.map((item) => (
-                <div sx={styles.cartItem}>
-                  ${item}
-                </div>
+                <div sx={styles.cartItem}>${item}</div>
               ))}
+              <button
+                sx={{
+                  variant: "button.primary",
+                }}
+              >
+                SUBMIT
+              </button>
             </div>
-          )} */}
+          )}
         </div>
       </Container>
     </header>
@@ -91,13 +102,19 @@ const styles = {
   headerContainer: {
     display: "flex",
     justifyContent: "space-between",
+    position: "relative",
+  },
+  cartIcon: {
+    position: "absolute",
+    top: "0",
+    right: "0",
   },
   cartOpen: {
-    width: "200px",
+    width: "230px",
     height: "200px",
     background: "#220538",
     border: "2px solid #fff",
-    borderRadius: "5px",
+    borderRadius: "2px",
   },
   cartItem: {
     display: "flex",
