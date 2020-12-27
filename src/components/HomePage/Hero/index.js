@@ -11,8 +11,10 @@ import { Row, Col } from "../../Grid"
 import HeroBackground from "../../../images/elements/hero_background.svg"
 import HeroImage from "../../../images/elements/monitor.svg"
 import HeroDecor from "../../../images/elements/hero_decor.svg"
-import Card from "../../Card"
+import ProductCard from "../../ProductCard"
 import { CartContext } from "../../../context/cartContext"
+
+import Image from '../../Image'
 
 export default function HomepageHero() {
   const [cart, setCart] = useContext(CartContext)
@@ -84,26 +86,7 @@ export default function HomepageHero() {
             <Slider {...settings}>
               {data &&
                 data.allMarkdownRemark.edges.map(({ node }) => (
-                  <Card key={node.id}>
-                    <Link
-                      to={node.fields.slug}
-                      sx={{ color: "#fff", textDecoration: "none" }}
-                    >
-                      <img
-                        sx={{ textAlign: "center" }}
-                        src={node.frontmatter.image}
-                        alt="dummy image"
-                      />
-                      <p>{node.frontmatter.name}</p>
-                      <p>{node.frontmatter.excerpt}</p>
-                    </Link>
-                    <span
-                      style={styles.addToCartBtn}
-                      onClick={() => addToCart(node.frontmatter.price)}
-                    >
-                      <FaPlus size="24" color="white" />
-                    </span>
-                  </Card>
+                  <ProductCard key={node} product={node} addToCart={()=>addToCart(node.frontmatter.price) } />
                 ))}
             </Slider>
           </div>
@@ -154,17 +137,5 @@ const styles = {
     right: 0,
     display: ["none", null, "block"],
     zIndex: -1,
-  },
-
-  addToCartBtn: {
-    maxWidth: "100px",
-    background: "#AA528D",
-    display: "flex",
-    alignSelf: "flex-end",
-    width: "50px",
-    height: "auto",
-    padding: "15px",
-    borderRadius: "100%",
-    cursor: "pointer",
   },
 }
