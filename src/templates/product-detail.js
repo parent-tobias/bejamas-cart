@@ -5,10 +5,17 @@ import { graphql } from "gatsby"
 
 import Layout from "../components/Layout"
 import { Col, Row, Container } from "../components/Grid"
+import { ProductProvider} from '../context/productContext';
+import { CartProvider, CartContext } from '../context/cartContext';
 
 export default function ProductView({ data }) {
-  const product = data.markdownRemark
+  const product = data.markdownRemark;
+  console.log(JSON.parse(JSON.stringify(data)));
+
   return (
+<ProductProvider>
+
+  <CartProvider>
     <Layout>
       <Container>
         <section sx={{ paddingTop: [60, 60, 105] }}>
@@ -31,14 +38,21 @@ export default function ProductView({ data }) {
               </Styled.h2>
               <p>{product.frontmatter.description}</p>
               <Styled.h3>${product.frontmatter.price}</Styled.h3>
-              <button sx={{ variant: "button.primary", mx: ["auto", null, 0] }}>
-                ADD TO CART
-              </button>
+              <CartContext.Consumer>
+                { ({cart, addToCart})=>(
+                  <button sx={{ variant: "button.primary", mx: ["auto", null, 0] }} onClick={()=>addToCart(product.id)}>
+                    ADD TO CART
+                  </button>
+                )}
+              </CartContext.Consumer>
             </Col>
           </Flex>
         </section>
       </Container>
     </Layout>
+  </CartProvider>
+  </ProductProvider>
+
   )
 }
 
@@ -63,6 +77,7 @@ export const query = graphql`
   query($slug: String!) {
     markdownRemark(fields: { slug: { eq: $slug } }) {
       # html
+      id
       frontmatter {
         image
         name

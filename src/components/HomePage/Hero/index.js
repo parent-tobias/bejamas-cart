@@ -21,7 +21,6 @@ import Image from '../../Image'
 export default function HomepageHero() {
   const {cart, addToCart} = useContext(CartContext)
 
-
   return (
     <section>
       <section sx={{ paddingTop: [60, 60, 105] }}>

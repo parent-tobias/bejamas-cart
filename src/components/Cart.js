@@ -23,7 +23,7 @@ export default function CartSummary({items}){
 
 function CartItem({products, item}){
   const product = products.find(product => product.id === item.id)
-  return (
+  return ( product ?
      <div>
     <Link
       to={product.fields.slug}
@@ -32,7 +32,7 @@ function CartItem({products, item}){
       <span>{product.frontmatter.name}</span>
     </Link>
     <span>{item.qty}</span>
-  </div>
+  </div> : <div>No match found</div>
   )
 }
 
