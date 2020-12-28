@@ -6,12 +6,12 @@ import {FaPlus} from 'react-icons/fa';
 
 import {ProductContext} from '../context/productContext'
 
-export default function CartSummary({items}){
+export default function CartSummary({items, adjustCart, removeFromCart}){
   return (
   <ProductContext.Consumer>
     {products=>(
       items.map(item=>(
-        <CartItem key={item.id} products={products} item={item} />
+        <CartItem key={item.id} products={products} item={item} removeFromCart={removeFromCart} />
         )
       )
   
@@ -21,7 +21,7 @@ export default function CartSummary({items}){
   )
 }
 
-function CartItem({products, item}){
+function CartItem({products, item, removeFromCart}){
   const product = products.find(product => product.id === item.id)
   return ( product ?
      <div>
@@ -32,6 +32,7 @@ function CartItem({products, item}){
       <span>{product.frontmatter.name}</span>
     </Link>
     <span>{item.qty}</span>
+    <button onClick={()=>removeFromCart(item.id)}>x</button>
   </div> : <div>No match found</div>
   )
 }

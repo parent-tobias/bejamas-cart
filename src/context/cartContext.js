@@ -3,7 +3,9 @@ import useLocalStorage from '../hooks/useLocalStorage'
 
 export const CartContext = createContext({
   cart: [],
-  setCart: ()=>{}
+  addToCart: ()=>{},
+  adjustCart: ()=>{},
+  removeFromCart: ()=>{},
 })
 
 export const CartProvider = ({ children }) => {
@@ -16,9 +18,25 @@ export const CartProvider = ({ children }) => {
           }, [])
           : [...cart, {id, qty: 1}]
     setCart(updatedCart)
-
   })
-  const contextObject = {cart, addToCart};
+
+  const updateCart = ((id, qty)=>{
+    const updatedCart = cart.filter(item=>item.id===id).length>0
+          ? cart.reduce((cartArray, item)=> item.id===id 
+              ? item.qty >qty 
+                  ? [...cartArray, {id: item.id, qty: item.qty-qty}]
+                  : cartArray
+              : cartArray, []
+            )
+          : qty>0 ? [...cart, {id, qty}] : cart;
+    setCart(updatedCart);
+  })
+
+  const removeFromCart = ((id)=>{
+    const updatedCart = cart.filter(item=>item.id!==id);
+    setCart(updatedCart)
+  })
+  const contextObject = {cart, addToCart, updateCart, removeFromCart};
   return (
     <CartContext.Provider value={contextObject}>
       {children}

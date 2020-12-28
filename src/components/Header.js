@@ -9,7 +9,7 @@ import CartSummary from "../components/Cart"
 import { CartContext } from "../context/cartContext"
 
 export default function Header() {
-  const {cart, addToCart} = useContext(CartContext)
+  const {cart, adjustCart, removeFromCart} = useContext(CartContext)
   const [isOpen, setIsOpen] = useState(false)
 
   const openCart = () => {
@@ -63,10 +63,8 @@ export default function Header() {
 
           {isOpen && (
             <div sx={styles.cartOpen}>
-              <CartSummary items={cart} />
-              {/* {cart.map((item) => (
-                <div sx={styles.cartItem}>${item.id}</div>
-              ))} */}
+              <CartSummary items={cart} adjustCart={adjustCart} removeFromCart={removeFromCart} />
+
               <button
                 sx={{
                   variant: "button.primary",
