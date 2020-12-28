@@ -24,7 +24,7 @@ export default function CartSummary({items, adjustCart, removeFromCart}){
 function CartItem({products, item, removeFromCart}){
   const product = products.find(product => product.id === item.id)
   return ( product ?
-     <div>
+     <div sx={styles.cartRow}>
     <Link
       to={product.fields.slug}
       sx={{ color: "#fff", textDecoration: "none" }}
@@ -50,4 +50,9 @@ const styles = {
     borderRadius: "100%",
     cursor: "pointer",
   },
+  cartRow: {
+    padding: ".5rem",
+    display: "flex",
+    justifyContent: "space-between"
+  }
 }

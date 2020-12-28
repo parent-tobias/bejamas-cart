@@ -4,6 +4,7 @@ import { Flex, jsx, Styled } from "theme-ui"
 import { graphql } from "gatsby"
 
 import Layout from "../components/Layout"
+import Image from '../components/Image'
 import { Col, Row, Container } from "../components/Grid"
 import { ProductProvider} from '../context/productContext';
 import { CartProvider, CartContext } from '../context/cartContext';
@@ -21,10 +22,10 @@ export default function ProductView({ data }) {
         <section sx={{ paddingTop: [60, 60, 105] }}>
           <Flex sx={styles.detailViewWrapper}>
             <Col styles={styles.detailImage}>
-              <img
-                src={product.frontmatter.image}
-                alt={product.frontmatter.name}
-                sx={{ maxWidth: "1" }}
+            <Image
+               sx={{ maxWidth: "1" }}
+               image={product.frontmatter.image}
+               alt={product.frontmatter.name}
               />
             </Col>
 
