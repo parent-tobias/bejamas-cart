@@ -4,33 +4,35 @@ import { jsx } from "theme-ui"
 import { Link } from 'gatsby';
 import {FaPlus} from 'react-icons/fa';
 
-import Card from './Card';
-import Image from './Image';
+import {ProductContext} from '../context/productContext'
 
-
-export default function ProductCard(props){
-  const {product, addToCart} = props;
+export default function CartSummary({items}){
   return (
-     <Card>
+  <ProductContext.Consumer>
+    {products=>(
+      items.map(item=>(
+        <CartItem key={item.id} products={products} item={item} />
+        )
+      )
+  
+    )
+    }
+  </ProductContext.Consumer>
+  )
+}
+
+function CartItem({products, item}){
+  const product = products.find(product => product.id === item.id)
+  return (
+     <div>
     <Link
       to={product.fields.slug}
       sx={{ color: "#fff", textDecoration: "none" }}
     >
-      <Image
-        sx={{ textAlign: "center" }}
-        image={product.frontmatter.image}
-        alt="dummy image"
-      />
-      <p>{product.frontmatter.name}</p>
-      <p>{product.frontmatter.excerpt}</p>
+      <span>{product.frontmatter.name}</span>
     </Link>
-    <span
-      style={styles.addToCartBtn}
-      onClick={addToCart}
-    >
-      <FaPlus size="24" color="white" />
-    </span>
-  </Card>
+    <span>{item.qty}</span>
+  </div>
   )
 }
 

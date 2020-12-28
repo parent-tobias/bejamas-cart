@@ -5,16 +5,17 @@ import { Link } from "gatsby"
 import { FaShoppingBasket, FaAngleDown, FaAngleUp } from "react-icons/fa"
 
 import { Container } from "../components/Grid"
+import CartSummary from "../components/Cart"
 import { CartContext } from "../context/cartContext"
 
 export default function Header() {
-  const [cart, setCart] = useContext(CartContext)
+  const {cart, addToCart} = useContext(CartContext)
   const [isOpen, setIsOpen] = useState(false)
 
   const openCart = () => {
     setIsOpen(!isOpen)
   }
-
+ 
   // const removeFromCart = (item) => {
   //   setCart((currentCart) => {
   //     const indexOfItemToRemove = currentCart.findIndex(
@@ -62,9 +63,10 @@ export default function Header() {
 
           {isOpen && (
             <div sx={styles.cartOpen}>
-              {cart.map((item) => (
-                <div sx={styles.cartItem}>${item}</div>
-              ))}
+              <CartSummary items={cart} />
+              {/* {cart.map((item) => (
+                <div sx={styles.cartItem}>${item.id}</div>
+              ))} */}
               <button
                 sx={{
                   variant: "button.primary",
